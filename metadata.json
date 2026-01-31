@@ -1,5 +1,0 @@
-{
-  "name": "PBR Material Explorer",
-  "description": "An interactive 3D PBR material viewer that allows users to drag and drop texture sets (Albedo, Normal, Roughness, Metallic, AO) to visualize them on various geometries with real-time environment lighting.",
-  "requestFramePermissions": []
-}
