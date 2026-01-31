@@ -1,26 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PBR Material Explorer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "three": "https://esm.sh/three@^0.182.0",
-    "@react-three/fiber": "https://esm.sh/@react-three/fiber@^9.5.0",
-    "@react-three/drei": "https://esm.sh/@react-three/drei@^10.7.7"
-  }
-}
-</script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBR Explorer - Professional Material Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-  <body class="bg-zinc-950 text-white overflow-hidden">
-    <div id="root"></div>
-  </body>
+
+<body>
+    <div id="app">
+        <!-- Drag overlay -->
+        <div id="drag-overlay" class="drag-overlay">
+            <div class="drag-card">
+                <i data-lucide="upload"></i>
+                <h2>Drop textures here</h2>
+                <p>Albedo, Normal, Roughness, Metallic, AO, Height</p>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <header>
+                <h1>
+                    <i data-lucide="layers" class="logo-icon"></i>
+                    PBR Explorer
+                </h1>
+                <p>Material Visualization</p>
+            </header>
+
+            <!-- Geometry Selector -->
+            <section>
+                <h3><i data-lucide="settings-2"></i> GEOMETRY</h3>
+                <div class="geometry-grid">
+                    <button class="geometry-btn active" data-shape="cube">
+                        <i data-lucide="box"></i>
+                        <span>Cube</span>
+                    </button>
+                    <button class="geometry-btn" data-shape="sphere">
+                        <i data-lucide="circle"></i>
+                        <span>Sphere</span>
+                    </button>
+                    <button class="geometry-btn" data-shape="plane">
+                        <i data-lucide="square"></i>
+                        <span>Plane</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Texture Slots -->
+            <section>
+                <h3><i data-lucide="layers"></i> TEXTURE SLOTS</h3>
+                <div class="texture-slots" id="texture-slots">
+                    <!-- Slots will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- Parameters -->
+            <section>
+                <h3><i data-lucide="settings-2"></i> PARAMETERS</h3>
+                <div class="parameter-list">
+                    <div class="parameter-item">
+                        <div class="label-box"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label class="parameter-label">TILING</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="val-tiling" class="param-input" step="0.1" value="1">
+                                <span class="input-suffix">x</span>
+                            </div>
+                        </div>
+                        <input type="range" id="param-tiling" min="0.1" max="10" step="0.1" value="1">
+                    </div>
+                    <div class="parameter-item">
+                        <div class="label-box"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label class="parameter-label">DISPLACEMENT</label>
+                            <input type="number" id="val-displacement" class="param-input" step="0.01" value="0.05">
+                        </div>
+                        <input type="range" id="param-displacement" min="0" max="1" step="0.01" value="0.05">
+                    </div>
+                    <div class="parameter-item">
+                        <div class="label-box"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label class="parameter-label">EXPOSURE</label>
+                            <input type="number" id="val-exposure" class="param-input" step="0.1" value="1">
+                        </div>
+                        <input type="range" id="param-exposure" min="0" max="2" step="0.1" value="1">
+                    </div>
+                    <div class="parameter-item">
+                        <div class="label-box"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label class="parameter-label">ROUGHNESS</label>
+                            <input type="number" id="val-roughness" class="param-input" step="0.01" value="1">
+                        </div>
+                        <input type="range" id="param-roughness" min="0" max="1" step="0.01" value="1">
+                    </div>
+                    <div class="parameter-item">
+                        <div class="label-box"
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label class="parameter-label">METALNESS</label>
+                            <input type="number" id="val-metalness" class="param-input" step="0.01" value="0">
+                        </div>
+                        <input type="range" id="param-metalness" min="0" max="1" step="0.01" value="0">
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <i data-lucide="info"></i>
+                <p>Drag and drop texture sets directly onto the 3D viewport to apply them.</p>
+            </footer>
+        </div>
+
+        <!-- 3D Viewport -->
+        <div class="viewport-container" id="drop-zone">
+            <div id="canvas-container"></div>
+
+            <div class="viewport-overlay">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    <span class="status-text">REALTIME RENDERER</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Three.js and Application Logic -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.182.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.182.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+
 </html>

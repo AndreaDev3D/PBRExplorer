@@ -2,19 +2,31 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# PBR Explorer
 
-This contains everything you need to run your app locally.
+A lightweight, high-performance PBR (Physically Based Rendering) material visualizer built entirely with vanilla **HTML**, **CSS**, and **JavaScript**.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1Q_o-zFoAAKra9r_TntgQkC5UUekyDN4d
+## 🚀 Features
 
-## Run Locally
+- **Zero Dependencies**: No `npm`, `node_modules`, or build steps. Purely self-contained.
+- **Real-time 3D Rendering**: Powered by Three.js (via CDN) with ACES Filmic tone mapping.
+- **Drag-and-Drop Workflow**: Instantly visualize texture sets by dragging them into the viewport.
+- **Interactive Parameters**: Fine-tune your materials with both sliders and precise numeric input boxes.
+- **Multiple Geometries**: Switch between Cube, Sphere, and Plane views.
+- **Premium UI**: Modern dark-mode interface with glassmorphism and custom scrollbars.
 
-**Prerequisites:**  Node.js
+## 🛠️ Supported Texture Maps
 
+The explorer automatically matches files based on naming conventions:
+- **Albedo / Map**: `albedo`, `diffuse`, `basecolor`, `color`
+- **Normal**: `normal`, `nrm`, `nm`
+- **Roughness**: `roughness`, `rough`, `rgh`
+- **Metallic**: `metal`, `mtl`
+- **AO**: `ao`, `ambientocclusion`
+- **Height / Displacement**: `height`, `displacement`, `disp`
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🏁 How to Run
+
+1. Clone or download this repository.
+2. Open [index.html](index.html) in any modern web browser.
+3. Drag and drop your texture maps into the 3D window to apply them.
