@@ -6,6 +6,8 @@
 
 A lightweight, high-performance PBR (Physically Based Rendering) material visualizer built entirely with vanilla **HTML**, **CSS**, and **JavaScript**.
 
+[**Live Demo**](https://andreadev3d.github.io/PBRExplorer/)
+
 ## 🚀 Features
 
 - **Zero Dependencies**: No `npm`, `node_modules`, or build steps. Purely self-contained.
